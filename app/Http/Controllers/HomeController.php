@@ -22,14 +22,14 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {   
+    {
         $user = auth()->user();
         $cus = $user->derivetabs;
         return view('home',['cus'=>$cus]);
     }
     function makereq(Request $req)
     {
-         
+
          $user = auth()->user();
          $cus = $user->derivetabs;
          $username = $user->name;
@@ -56,20 +56,21 @@ class HomeController extends Controller
         $latitude = round($req->lats,6);
         $longitude = round($req->long,6);
 
-       // $cus = customer::selectRaw('id,name,Place,Phone,working,image,( 6367 * acos( cos( radians( ? ) ) * cos( radians( Latitude ) ) * cos( radians( Longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( Latitude ) ) ) ) as distance', [$latitude, $longitude, $latitude])
-       // ->having('distance', '<', 500)
-       // ->orderBy('distance')
-        //->get();
-        
-         $cus = customer::selectRaw('"id","name","Place","working","image",( 6367 * acos( cos( radians( ? ) ) * cos( radians( "Latitude" ) ) * cos( radians( "Longitude" ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( "Latitude" ) ) ) ) as distance', [$latitude, $longitude, $latitude])
-            ->whereRaw('( 6367 * acos( cos( radians( ? ) ) * cos( radians( "Latitude" ) ) * cos( radians( "Longitude" ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( "Latitude" ) ) ) ) < 500',[$latitude, $longitude, $latitude])
-            ->orderBy("distance")
-             ->get();
+       $cus = customer::selectRaw('id,name,Place,Phone,working,image,( 6367 * acos( cos( radians( ? ) ) * cos( radians( Latitude ) ) * cos( radians( Longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( Latitude ) ) ) ) as distance', [$latitude, $longitude, $latitude])
+       ->having('distance', '<', 500)
+       ->orderBy('distance')
+        ->get();
+
+
+        //  $cus = customer::selectRaw('"id","name","Place","working","image",( 6367 * acos( cos( radians( ? ) ) * cos( radians( "Latitude" ) ) * cos( radians( "Longitude" ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( "Latitude" ) ) ) ) as distance', [$latitude, $longitude, $latitude])
+        //     ->whereRaw('( 6367 * acos( cos( radians( ? ) ) * cos( radians( "Latitude" ) ) * cos( radians( "Longitude" ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( "Latitude" ) ) ) ) < 500',[$latitude, $longitude, $latitude])
+        //     ->orderBy("distance")
+        //      ->get();
             $user = auth()->user();
             $user->derivetabs()->truncate();
             $items = [];
             foreach($cus as $data)
-            {  
+            {
                 $items[] = [
                     'name' => $data->name,
                     'user_id' => auth()->user()->id,
@@ -87,6 +88,7 @@ class HomeController extends Controller
             derivetab::insert($items);
             $user = auth()->user();
             $cus2 = $user->derivetabs;
+           
             return view('home',['cus'=>$cus2]);
     }
     function getderive()
@@ -124,6 +126,6 @@ class HomeController extends Controller
         $cus = $user->derivetabs;
         return redirect()->route('home',['cus'=>$cus]);
    }
-    
+
 
 }

@@ -13,14 +13,14 @@ use App\User;
 class UserController extends Controller
 {
     function check(Request $req)
-    {  
+    {
         $entity = employee::where('name', $req->user)->get();
         if($entity->isEmpty())
         return redirect('/registersp');
         else if(($req->user == $entity[0]->name)&&($req->password == Crypt::decrypt($entity[0]->password)))
         {
-       
-            $req->session()->put('sp-login',$req->input());
+
+            $req->session()->put('sp-login',$req->user);
                 return view('makecus');
         }
         else
@@ -28,12 +28,12 @@ class UserController extends Controller
            return redirect('/registersp');
         }
     }
-    
+
     function checkagain()
    {
     $cus = customer::all();
     foreach($cus as $c)
-    
+
      {   $to = Carbon::createFromFormat('Y-m-d H:i:s', $c->updated_at);
         $mytime = Carbon::now();
         $from = Carbon::createFromFormat('Y-m-d H:i:s', $mytime);

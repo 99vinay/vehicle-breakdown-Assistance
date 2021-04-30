@@ -22,13 +22,13 @@
         <a class="nav-link" href="/addnew">Add WorkShop</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href=#>Vinay007</span></a>
+        <a class="nav-link" href=#>{{session()->get('sp-login')}}</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/sp_logout">Logout</a>
-      </li>    
+      </li>
     </ul>
-  </div>  
+  </div>
 </nav>
 <br>
 

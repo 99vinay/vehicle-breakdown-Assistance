@@ -6,17 +6,15 @@
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
+
       <li class="nav-item">
       <a class="nav-link" href="#">{{$name}}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/adminlogout">log out</a>
-      </li>    
+        <a class="nav-link" href="/adminlogout">Logout</a>
+      </li>
     </ul>
-  </div>  
+  </div>
 </nav>
 
 <div id="mainwork" style="background-color:blueviolet;">
@@ -37,7 +35,7 @@
     @elseif($data->Status == 3)
     <h4 align="right"><span  class="badge badge-success">Confirmed</span></h4>
     <h5 class="card-title"><span class="font-weight-bold font-italic" style="display:inline-block; width:70px;text-align:left" >Phone no.</span>{{$data->phone}}</h5>
-    <a href="{{url('getdirect'.'/'.$data->Latitude.'/'.$data->Longitude)}}" class="btn btn-primary">Get Directions</a>
+    <a href="{{url('https://www.google.com/maps/dir/?api=1&destination='.$data->Latitude.','.$data->Longitude)}}" class="btn btn-primary">Get Directions</a>
     @endif
   </div>
  </div>
@@ -45,7 +43,7 @@
  @endif
  </div>
  </div>
-   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  
+   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
    $(document).ready(function(){
        setInterval(function(){
@@ -54,8 +52,8 @@
              type:'GET',
              success: function(result){
               data = $(result).filter('#mainwork');
-             
-             
+
+
               $('#mainwork').replaceWith(data);
              }
           });
